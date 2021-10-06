@@ -82,7 +82,7 @@
 			"vengo por la primera dosis de sputnik",
 			"deseo vacunarme la primera dosis de sputnik",
 			"necesito vacunarme con primera dosis de sputnik"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y luego ve a la estacion 1"]
 	},
 	{"tag":"vacunaConDosisPrimeraModerna",
 		"patrones":["deseo primera dosis de moderna",
@@ -90,7 +90,7 @@
 			"vengo por la primera dosis de moderna",
 			"deseo vacunarme la primera dosis de moderna",
 			"necesito vacunarme con primera dosis de moderna"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y luego ve a la estacion 2"]
 	},
 	{"tag":"vacunaConDosisPrimeraPfizer",
 		"patrones":["deseo primera dosis de pfizer",
@@ -98,7 +98,7 @@
 			"vengo por la primera dosis de pfizer",
 			"deseo vacunarme de la primera dosis de pfizer",
 			"necesito vacunarme con primera dosis de pfizer"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 3"]
 	},
 	{"tag":"vacunaConDosisPrimeraAstrazeneca",
 		"patrones":["deseo primera dosis de astrazeneca",
@@ -106,7 +106,7 @@
 			"vengo por la primera dosis de astrazeneca",
 			"deseo vacunarme con la primera dosis de astrazeneca",
 			"necesito vacunarme con primera dosis de astrazeneca"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 4"]
 	},
 	{"tag":"vacunaConDosisSegundaSputnik",
 		"patrones":["deseo segunda dosis de sputnik",
@@ -114,7 +114,7 @@
 			"vengo por la segunda dosis de sputnik",
 			"deseo vacunarme con la segunda dosis de sputnik",
 			"necesito vacunarme con segunda dosis de sputnik"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 5"]
 	},
 	{"tag":"vacunaConDosisSegundaModerna",
 		"patrones":["deseo segunda dosis de moderna",
@@ -122,7 +122,7 @@
 			"vengo por la segunda dosis de moderna",
 			"deseo vacunarme con la segunda dosis de moderna",
 			"necesito vacunarme con segunda dosis de moderna"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 6"]
 	},
 	{"tag":"vacunaConDosisSegundaPfizer",
 		"patrones":["deseo segunda dosis de pfizer",
@@ -130,7 +130,7 @@
 			"vengo por la segunda dosis de pfizer",
 			"deseo vacunarme con la segunda dosis de pfizer",
 			"necesito vacunarme con segunda dosis de pfizer"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 7"]
 	},
 	{"tag":"vacunaConDosisSegundaAstrazeneca",
 		"patrones":["deseo segunda dosis de astrazeneca",
@@ -138,7 +138,7 @@
 			"vengo por la segunda dosis de astrazeneca",
 			"deseo vacunarme con la segunda dosis de astrazencea",
 			"necesito vacunarme con segunda dosis de astrazeneca"],
-		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
+		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 8"]
 	}
 ]
 

@@ -103,7 +103,12 @@ def tagDecision(tag):
 		"vacunaConDosisSegundaSputnik":0,
 		"vacunaConDosisSegundaModerna":1,
 		"vacunaConDosisSegundaAstrazeneca":2,
-		"vacunaConDosisSegundaPfizer":3
+		"vacunaConDosisSegundaPfizer":3,
+		"vacunaConDosisPrimeraSputnik":4,
+		"vacunaConDosisPrimeraModerna":5,
+		"vacunaConDosisPrimeraAstrazeneca":6,
+		"vacunaConDosisPrimeraPfizer":7
+
 	}.get(tag)
 
 def aceptarVacuna(tag,dias):
@@ -166,33 +171,26 @@ def mainBot():
 			tag=tags[resultadosIndices]
 			print("tag:"+tag)
 			resultTag=tagDecision(tag)
-			if resultTag in range(0,4):
+			if resultTag in range(0,4): #Vacunas de segunda dosis
 				engine.say("Cuál es la fecha en que se coloco la primera vacuna")
 				engine.runAndWait()
 				diasVacunacion_primera=escucharFecha()
 				if aceptarVacuna(tag,diasVacunacion_primera):
-					print("Pasa a la ventanilla X")
-			for tagAux in datos["contenido"]:
-				if tagAux["tag"]==tag:
-					respuesta=tagAux["respuestas"]
-			engine.say(random.choice(respuesta))
-			engine.runAndWait()
+					for tagAux in datos["contenido"]:
+						if tagAux["tag"]==tag:
+							respuesta=tagAux["respuestas"]
+					engine.say(random.choice(respuesta))
+					engine.runAndWait()
+			else:
+				for tagAux in datos["contenido"]:
+						if tagAux["tag"]==tag:
+							respuesta=tagAux["respuestas"]
+				engine.say(random.choice(respuesta))
+				engine.runAndWait()
+
 			
 			
 
 mainBot() #Se descomenta para utilizar la IA
 
-#print(escucharFecha()) #Retorna el número de días desde la fecha que se indica por voz
-#print(aceptarVacuna("vacunaConDosisSegundaPfizer",20))
-######################### Comentario ##################3
-#Lo siguiente se puede resolver en código
-#escuchar()
-#Tu: hola buenos dias
-#saludo
-#Tu: deseo vacunarme
-#vacunacionPeticion
-#Tu: sputnik
-#vacunaPedidaSputnik
-#Tu: primera dosis
-#vacunaDosisPrimera
-#Tu:
+#Colocar en el modelo las ventanillas 
