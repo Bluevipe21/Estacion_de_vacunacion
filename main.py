@@ -103,11 +103,7 @@ def tagDecision(tag):
 		"vacunaConDosisSegundaSputnik":0,
 		"vacunaConDosisSegundaModerna":1,
 		"vacunaConDosisSegundaAstrazeneca":2,
-		"vacunaConDosisSegundaPfizer":3,
-		"vacunaConDosisPrimeraSputnik":4,
-		"vacunaConDosisPrimeraModerna":5,
-		"vacunaConDosisPrimeraAstrazeneca":6,
-		"vacunaConDosisPrimeraPfizer":7
+		"vacunaConDosisSegundaPfizer":3
 
 	}.get(tag)
 
@@ -181,7 +177,7 @@ def mainBot():
 							respuesta=tagAux["respuestas"]
 					engine.say(random.choice(respuesta))
 					engine.runAndWait()
-			else:
+			else: #De lo contrario sera primera dosis de alguna vacuna
 				for tagAux in datos["contenido"]:
 						if tagAux["tag"]==tag:
 							respuesta=tagAux["respuestas"]
