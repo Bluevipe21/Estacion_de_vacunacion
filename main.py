@@ -14,6 +14,8 @@ import datetime
 from datetime import date
 #nltk.download('punkt')
 
+vacunaIndividual=""
+dosisIndividual=0
 r=sr.Recognizer()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -113,11 +115,52 @@ def tagDecision(tag):
 	}.get(tag)
 
 def selectVacuna(option):
-	{5:sputnikOption
+	{5:sputnikOption,
+	6:modernaOption,
+	7:pfizerOption,
+	8:astrazenecaOption,
+	9:primeraDosis,
+	10:segundaDosis
 	}[option]()
 
 def sputnikOption():
-	print("Opcion sputnik seleccionada")
+	vacunaIndividual="sputnik"
+
+def modernaOption():
+	vacunaIndividual="moderna"
+
+def pfizerOption():
+	vacunaIndividual="pfizer"
+
+def astrazenecaOption():
+	vacunaIndividual="astrazeneca"
+
+def primeraDosis():
+	dosisIndividual=1 #para tener el dato a guardar en la base de datos
+
+def segundaDosis():
+	dosisIndividual=2 #para tener el dato a guardar en la base de datos
+	engine.say("Cuál es la fecha en que se coloco la primera dosis de la vacuna")
+	engine.runAndWait()
+	dias=escucharFecha()
+	if vacunaIndividual=="sputnik" or vacunaIndividual=="moderna" or vacunaIndividual=="astrazeneca":
+		if dias>28:
+			engine.say("Puedes vacunarte")
+			engine.runAndWait()
+			#Se guarda el dato
+		else:
+			#No se guarda el dato
+			engine.say("Aun no puedes vacunarte")
+			engine.runAndWait()
+	else:
+		if dias>21:
+			#Se guarda el dato
+			engine.say("Puedes vacunarte")
+			engine.runAndWait()
+		else:
+			#No se guarda el dato
+			engine.say("Aun no puedes vacunarte")
+			engine.runAndWait()
 
 def aceptarVacuna(tag,dias):
 	vacuna=tagDecision(tag)
