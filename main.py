@@ -103,9 +103,21 @@ def tagDecision(tag):
 		"vacunaConDosisSegundaSputnik":0,
 		"vacunaConDosisSegundaModerna":1,
 		"vacunaConDosisSegundaAstrazeneca":2,
-		"vacunaConDosisSegundaPfizer":3
-
+		"vacunaConDosisSegundaPfizer":3,
+		"vacunaPedidaSputnik":5,
+		"vacunaPedidaModerna":6,
+		"vacunaPedidaPfizer":7,
+		"vacunaPedidaAstrazeneca":8,
+		"vacunaDosisPrimera":9,
+		"vacunaDosisSegunda":10
 	}.get(tag)
+
+def selectVacuna(option):
+	{5:sputnikOption
+	}[option]()
+
+def sputnikOption():
+	print("Opcion sputnik seleccionada")
 
 def aceptarVacuna(tag,dias):
 	vacuna=tagDecision(tag)
@@ -177,6 +189,13 @@ def mainBot():
 							respuesta=tagAux["respuestas"]
 					engine.say(random.choice(respuesta))
 					engine.runAndWait()
+			elif resultTag in range(5,11):
+				selectVacuna(resultTag)
+				for tagAux in datos["contenido"]:
+						if tagAux["tag"]==tag:
+							respuesta=tagAux["respuestas"]
+				engine.say(random.choice(respuesta))
+				engine.runAndWait()
 			else: #De lo contrario sera primera dosis de alguna vacuna
 				for tagAux in datos["contenido"]:
 						if tagAux["tag"]==tag:
