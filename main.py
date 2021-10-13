@@ -124,21 +124,27 @@ def selectVacuna(option):
 	}[option]()
 
 def sputnikOption():
+	global vacunaIndividual
 	vacunaIndividual="sputnik"
 
 def modernaOption():
+	global vacunaIndividual
 	vacunaIndividual="moderna"
 
 def pfizerOption():
+	global vacunaIndividual
 	vacunaIndividual="pfizer"
 
 def astrazenecaOption():
+	global vacunaIndividual
 	vacunaIndividual="astrazeneca"
 
 def primeraDosis():
+	global dosisIndividual
 	dosisIndividual=1 #para tener el dato a guardar en la base de datos
 
 def segundaDosis():
+	global dosisIndividual
 	dosisIndividual=2 #para tener el dato a guardar en la base de datos
 	engine.say("Cuál es la fecha en que se coloco la primera dosis de la vacuna")
 	engine.runAndWait()
@@ -220,7 +226,6 @@ def mainBot():
 			resultados=modelo.predict([numpy.array(cubeta)])
 			resultadosIndices=numpy.argmax(resultados)
 			tag=tags[resultadosIndices]
-			print("tag:"+tag)
 			resultTag=tagDecision(tag)
 			if resultTag in range(0,4): #Vacunas de segunda dosis
 				engine.say("Cuál es la fecha en que se coloco la primera vacuna")
@@ -245,6 +250,8 @@ def mainBot():
 							respuesta=tagAux["respuestas"]
 				engine.say(random.choice(respuesta))
 				engine.runAndWait()
+			print("Vacuna individual: "+vacunaIndividual)
+			print("Dosis: "+str(dosisIndividual))
 
 			
 			

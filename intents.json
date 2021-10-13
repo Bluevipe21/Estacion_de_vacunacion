@@ -28,10 +28,6 @@
 		"patrones":[""],
 		"respuestas":["Perdona, no te he entendido"]
 	},
-	{"tag":"vacunacionPeticion",
-		"patrones":["deseo vacunarme"],
-		"respuestas":["cual es la vacuna que vas a colocarte"]
-	},
 	{"tag":"vacunaPedidaSputnik",
 		"patrones":["deseo vacunarme con sputnik",
 			"quiero vacunarme con sputnik",
@@ -67,13 +63,15 @@
 	{"tag":"vacunaDosisPrimera",
 		"patrones":["deseo la primera dosis",
 			"quisiera la primera dosis",
-			"vengo por la primera dosis"],
+			"vengo por la primera dosis",
+			"primera dosis"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
 	},
 	{"tag":"vacunaDosisSegunda",
 		"patrones":["deseo la segunda dosis",
 			"quisiera la segunda dosis",
-			"vengo por la segunda dosis"],
+			"vengo por la segunda dosis",
+			"segunda dosis"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor"]
 	},
 	{"tag":"vacunaConDosisPrimeraSputnik",
@@ -81,7 +79,8 @@
 			"quisiera la primera dosis de sputnik",
 			"vengo por la primera dosis de sputnik",
 			"deseo vacunarme la primera dosis de sputnik",
-			"necesito vacunarme con primera dosis de sputnik"],
+			"necesito vacunarme con primera dosis de sputnik",
+			"buenos días no se si podria colocarme la primera dosis de sputnik"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y luego ve a la estacion 1"]
 	},
 	{"tag":"vacunaConDosisPrimeraModerna",
@@ -89,7 +88,8 @@
 			"quisiera la primera dosis de moderna",
 			"vengo por la primera dosis de moderna",
 			"deseo vacunarme la primera dosis de moderna",
-			"necesito vacunarme con primera dosis de moderna"],
+			"necesito vacunarme con primera dosis de moderna",
+		"´buenos días no se si podria colocarme la primera dosis de moderna"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y luego ve a la estacion 2"]
 	},
 	{"tag":"vacunaConDosisPrimeraPfizer",
@@ -97,7 +97,8 @@
 			"quisiera la primera dosis de pfizer",
 			"vengo por la primera dosis de pfizer",
 			"deseo vacunarme de la primera dosis de pfizer",
-			"necesito vacunarme con primera dosis de pfizer"],
+			"necesito vacunarme con primera dosis de pfizer",
+			"´buenos días no se si podria colocarme la primera dosis de pfizer"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 3"]
 	},
 	{"tag":"vacunaConDosisPrimeraAstrazeneca",
@@ -105,7 +106,8 @@
 			"quisiera la primera dosis de astrazeneca",
 			"vengo por la primera dosis de astrazeneca",
 			"deseo vacunarme con la primera dosis de astrazeneca",
-			"necesito vacunarme con primera dosis de astrazeneca"],
+			"necesito vacunarme con primera dosis de astrazeneca",
+			"´buenos días no se si podria colocarme la primera dosis de astrazeneca"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 4"]
 	},
 	{"tag":"vacunaConDosisSegundaSputnik",
@@ -113,7 +115,8 @@
 			"quisiera la segunda dosis de sputnik",
 			"vengo por la segunda dosis de sputnik",
 			"deseo vacunarme con la segunda dosis de sputnik",
-			"necesito vacunarme con segunda dosis de sputnik"],
+			"necesito vacunarme con segunda dosis de sputnik",
+			"buenos dias no se si podria colocarme la segunda dosis de sputnik"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 5"]
 	},
 	{"tag":"vacunaConDosisSegundaModerna",
@@ -121,7 +124,8 @@
 			"quisiera la segunda dosis de moderna",
 			"vengo por la segunda dosis de moderna",
 			"deseo vacunarme con la segunda dosis de moderna",
-			"necesito vacunarme con segunda dosis de moderna"],
+			"necesito vacunarme con segunda dosis de moderna",
+			"buenos dias no se si podria colocarme la segunda dosis de moderna"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 6"]
 	},
 	{"tag":"vacunaConDosisSegundaPfizer",
@@ -129,7 +133,8 @@
 			"quisiera la segunda dosis de pfizer",
 			"vengo por la segunda dosis de pfizer",
 			"deseo vacunarme con la segunda dosis de pfizer",
-			"necesito vacunarme con segunda dosis de pfizer"],
+			"necesito vacunarme con segunda dosis de pfizer",
+			"buenos dias no se si podria colocarme la segunda dosis de pfizer"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 7"]
 	},
 	{"tag":"vacunaConDosisSegundaAstrazeneca",
@@ -137,7 +142,8 @@
 			"quisiera la segunda dosis de astrazeneca",
 			"vengo por la segunda dosis de astrazeneca",
 			"deseo vacunarme con la segunda dosis de astrazencea",
-			"necesito vacunarme con segunda dosis de astrazeneca"],
+			"necesito vacunarme con segunda dosis de astrazeneca",
+			"buenos dias no se si podria colocarme la segunda dosis de astrazeneca"],
 		"respuestas":["Con mucho gusto, acerca tu DPI a la camara por favor y ve a la estacion 8"]
 	}
 ]
