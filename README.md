@@ -6,6 +6,7 @@ Se deben de instalar las siguientes librerías para que el proyecto funcione:
 * numpy
 * tensorflow
 * tlearn
+* nltk
 * json
 * random
 * pickle
