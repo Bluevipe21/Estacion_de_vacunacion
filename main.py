@@ -12,6 +12,9 @@ import pyttsx3
 import speech_recognition as sr 
 import datetime
 from datetime import date
+import time
+import cv2
+
 #nltk.download('punkt')
 
 vacunaIndividual=""
@@ -111,7 +114,8 @@ def tagDecision(tag):
 		"vacunaPedidaPfizer":7,
 		"vacunaPedidaAstrazeneca":8,
 		"vacunaDosisPrimera":9,
-		"vacunaDosisSegunda":10
+		"vacunaDosisSegunda":10,
+		"tomarFoto":13
 	}.get(tag)
 
 def selectVacuna(option):
@@ -209,6 +213,24 @@ def escucharFecha():
 			engine.say("Lo siento, no te entendi la fecha")
 			engine.runAndWait()
 
+def takePhoto():
+	cap = cv2.VideoCapture(0)
+#address="https://192.168.1.2:8080/video"
+#cap.open(address)
+	start=time.time()
+	while(cap.isOpened()):
+		ret, frame = cap.read()
+		gray  = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+		cv2.imshow('frame',gray)
+		end=time.time()
+		elapsedTime=end-start
+		if elapsedTime>=4:#cv2.waitKey(1) & 0xFF == ord('q'):
+			image=cv2.rotate(frame,cv2.ROTATE_180)
+			cv2.imwrite('DPI.jpg',image)
+			break
+
+	cap.release()
+	cv2.destroyAllWindows()
 
 def mainBot():
 	while True:
@@ -249,6 +271,10 @@ def mainBot():
 						if tagAux["tag"]==tag:
 							respuesta=tagAux["respuestas"]
 				engine.say(random.choice(respuesta))
+				engine.runAndWait()
+			if resultTag==13:#Toma la fotografía
+				takePhoto()
+				engine.say("Listo, acercate a la estación de vacunación")
 				engine.runAndWait()
 			print("Vacuna individual: "+vacunaIndividual)
 			print("Dosis: "+str(dosisIndividual))
