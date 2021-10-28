@@ -14,11 +14,17 @@ import datetime
 from datetime import date
 import time
 import cv2
+import sqlite3
+import datetime
+from xlsxwriter.workbook import Workbook 
+import pytesseract 
+import re
 
 #nltk.download('punkt')
-
+######Para la base de datos#######
 vacunaIndividual=""
-dosisIndividual=0
+dosisIndividual=""
+##################################
 r=sr.Recognizer()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -89,6 +95,144 @@ modelo=tflearn.DNN(red)
 modelo.fit(entrenamiento,salida,n_epoch=1000,batch_size=10,show_metric=True)
 modelo.save("modelo.tflearn")
 
+def calcular_edad(fecha_nacimiento): ##funcion para calcular la edad#
+	    fecha_actual = date.today()
+	    resultado = fecha_actual.year - fecha_nacimiento.year
+	    resultado -= ((fecha_actual.month, fecha_actual.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+	    return resultado
+
+def scanDPI():
+	pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+
+	Sex='SEXO'
+	NacioN='NACIONALIDAD'
+
+	img = cv2.imread('CUI1.jpg')
+	image = cv2.resize(img, (900,645))#726,471 # se redimenciona la imagen para tener un estandar"
+	imagenplt=cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
+	height, width, chanel = image.shape
+
+	crop_imgDPI = image[145:200, 0:290]
+	text = pytesseract.image_to_string(crop_imgDPI)
+	text = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text)
+
+	crop_imgName = image[130:230, 300:500]
+	text1 = pytesseract.image_to_string(crop_imgName,lang='spa')
+	text1=re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text1)
+
+	crop_imgApellidos = image[232:332, 300:440]
+	text2 = pytesseract.image_to_string(crop_imgApellidos,lang='spa')
+	text2 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text2)
+
+	crop_imgSexo = image[336:385, 300:460]
+	text3 = pytesseract.image_to_string(crop_imgSexo,lang='spa')
+	text3 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text3)
+	text3 = text3.replace('\n',' ')
+
+	crop_imgNacio = image[387:448, 300:480]
+	text4 = pytesseract.image_to_string(crop_imgNacio,lang='spa')
+	text4 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text4)
+
+	crop_imgFechaN = image[450:510, 300:490]
+	text5 = pytesseract.image_to_string(crop_imgFechaN,lang='spa')
+	text5 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text5)
+
+	indice_g = text3.find(Sex)
+	if indice_g != -1:
+	    genero = text3[indice_g + 5 : indice_g + 15]
+	elif indice_g == -1:
+	    Nacionalidad=text3[13:24]
+
+	indice_nacion = text4.find(NacioN)
+	if indice_nacion != -1:
+	    Nacionalidad = text4[indice_nacion + 13 : indice_g + 24]
+	elif indice_nacion == -1:
+	    genero=text4[5:15]
+
+	
+
+	Dia=text5[20:22]
+	Mes=text5[22:25]
+	Año=text5[25:29]
+
+	if Mes=='ENE':
+	    mes=1
+	    print(mes)
+	elif Mes=='FEB':
+	    mes=2 
+	elif Mes=='MAR':
+	    mes=3 
+	elif Mes=='ABR':
+	    mes=4    
+	elif Mes=='MAY':
+	    mes=5
+	elif Mes=='JUN':
+	    mes=6 
+	elif Mes=='JUL':
+	    mes=7
+	elif Mes=='AGO':
+	    mes=8     
+	elif Mes=='SEP':
+	    mes=9 
+	elif Mes=='OCT':
+	    mes=10 
+	elif Mes=='NOV':
+	    mes=11 
+	elif Mes=='DIC':
+	    mes=12 
+
+	fecha_de_nacimento=date(int(Año),int(mes),int(Dia))# (año,mes,día) 
+	Edad=calcular_edad(fecha_de_nacimento)
+
+	print(Dia)
+	print(Mes)
+	print(Año)
+	print(Edad)
+	#print(New_text)
+	#print(indice_g)
+	#print(indice_nacion)
+	#print(genero)
+	print(Nacionalidad)
+	#print(height, width)
+	print(text)
+	print(text1)
+	print(text2)
+	#print(text3)
+	#print(text4)
+	print(text5)
+
+
+def crear_conexion(base_datos):
+	try:
+		conexion=sqlite3.connect(base_datos)
+		return conexion
+	except sqlite3.Error as error:
+		print("Se ha producido un error al crear la conexión",error)
+
+
+def crear_tabla(conexion,definicion):
+	cursor=conexion.cursor()
+	cursor.execute(definicion)
+	conexion.commit()
+
+def crear_paciente(conexion,usuario):
+	sql='INSERT INTO paciente (dpi,nombre,edad,dosis,tipo_vacuna,fecha_vacuna) VALUES (?,?,?,?,?,?);'
+	cursor=conexion.cursor()
+	cursor.execute(sql,usuario)
+	conexion.commit()
+
+def exportToExcel():
+	workbook=Workbook('output.xlsx')
+	worksheet=workbook.add_worksheet()
+	conn=sqlite3.connect('pacientes.db')
+	cursor=conn.cursor()
+	data=cursor.execute('SELECT * FROM paciente')
+	for i,row in enumerate(data):
+		for j,value in enumerate(row):
+			worksheet.write(i,j,value)
+	workbook.close()
+
 def escuchar():
 	with sr.Microphone() as source:
 		try:
@@ -115,16 +259,28 @@ def tagDecision(tag):
 		"vacunaPedidaAstrazeneca":8,
 		"vacunaDosisPrimera":9,
 		"vacunaDosisSegunda":10,
-		"tomarFoto":13
+		"tomarFoto":13,
+		"vacunaConDosisPrimeraSputnik":15,
+		"vacunaConDosisPrimeraModerna":16,
+		"vacunaConDosisPrimeraAstrazeneca":17,
+		"vacunaConDosisPrimeraPfizer":18
 	}.get(tag)
 
 def selectVacuna(option):
-	{5:sputnikOption,
+	{0:sputnikOption,
+	1:modernaOption,
+	2:astrazenecaOption,
+	3:pfizerOption,
+	5:sputnikOption,
 	6:modernaOption,
 	7:pfizerOption,
 	8:astrazenecaOption,
 	9:primeraDosis,
-	10:segundaDosis
+	10:segundaDosis,
+	15:sputnikOption,
+	16:modernaOption,
+	17:astrazenecaOption,
+	18:pfizerOption
 	}[option]()
 
 def sputnikOption():
@@ -145,11 +301,11 @@ def astrazenecaOption():
 
 def primeraDosis():
 	global dosisIndividual
-	dosisIndividual=1 #para tener el dato a guardar en la base de datos
+	dosisIndividual="Primera" #para tener el dato a guardar en la base de datos
 
 def segundaDosis():
 	global dosisIndividual
-	dosisIndividual=2 #para tener el dato a guardar en la base de datos
+	dosisIndividual="Segunda" #para tener el dato a guardar en la base de datos
 	engine.say("Cuál es la fecha en que se coloco la primera dosis de la vacuna")
 	engine.runAndWait()
 	dias=escucharFecha()
@@ -226,7 +382,7 @@ def takePhoto():
 		elapsedTime=end-start
 		if elapsedTime>=4:#cv2.waitKey(1) & 0xFF == ord('q'):
 			image=cv2.rotate(frame,cv2.ROTATE_180)
-			cv2.imwrite('DPI.jpg',image)
+			cv2.imwrite('CUI1.jpg',image)
 			break
 
 	cap.release()
@@ -248,12 +404,16 @@ def mainBot():
 			resultados=modelo.predict([numpy.array(cubeta)])
 			resultadosIndices=numpy.argmax(resultados)
 			tag=tags[resultadosIndices]
+			print(tag)
 			resultTag=tagDecision(tag)
 			if resultTag in range(0,4): #Vacunas de segunda dosis
 				engine.say("Cuál es la fecha en que se coloco la primera vacuna")
 				engine.runAndWait()
 				diasVacunacion_primera=escucharFecha()
 				if aceptarVacuna(tag,diasVacunacion_primera):
+					selectVacuna(resultTag)
+					global dosisIndividual
+					dosisIndividual="Segunda"
 					for tagAux in datos["contenido"]:
 						if tagAux["tag"]==tag:
 							respuesta=tagAux["respuestas"]
@@ -266,7 +426,16 @@ def mainBot():
 							respuesta=tagAux["respuestas"]
 				engine.say(random.choice(respuesta))
 				engine.runAndWait()
-			else: #De lo contrario sera primera dosis de alguna vacuna
+			elif resultTag in range(14,19): #De lo contrario sera primera dosis de alguna vacuna
+				#global dosisIndividual
+				dosisIndividual="Primera"
+				selectVacuna(resultTag)
+				for tagAux in datos["contenido"]:
+						if tagAux["tag"]==tag:
+							respuesta=tagAux["respuestas"]
+				engine.say(random.choice(respuesta))
+				engine.runAndWait()
+			else:
 				for tagAux in datos["contenido"]:
 						if tagAux["tag"]==tag:
 							respuesta=tagAux["respuestas"]
@@ -274,9 +443,10 @@ def mainBot():
 				engine.runAndWait()
 			if resultTag==13:#Toma la fotografía
 				takePhoto()
+				#scanDPI()
 				engine.say("Listo, acercate a la estación de vacunación")
 				engine.runAndWait()
-			print("Vacuna individual: "+vacunaIndividual)
+			print("Vacuna: "+vacunaIndividual)
 			print("Dosis: "+str(dosisIndividual))
 
 			
