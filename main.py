@@ -95,113 +95,6 @@ modelo=tflearn.DNN(red)
 modelo.fit(entrenamiento,salida,n_epoch=1000,batch_size=10,show_metric=True)
 modelo.save("modelo.tflearn")
 
-def calcular_edad(fecha_nacimiento): ##funcion para calcular la edad#
-	    fecha_actual = date.today()
-	    resultado = fecha_actual.year - fecha_nacimiento.year
-	    resultado -= ((fecha_actual.month, fecha_actual.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
-	    return resultado
-
-def scanDPI():
-	pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-
-	Sex='SEXO'
-	NacioN='NACIONALIDAD'
-
-	img = cv2.imread('CUI1.jpg')
-	image = cv2.resize(img, (900,645))#726,471 # se redimenciona la imagen para tener un estandar"
-	imagenplt=cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
-	height, width, chanel = image.shape
-
-	crop_imgDPI = image[145:200, 0:290]
-	text = pytesseract.image_to_string(crop_imgDPI)
-	text = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text)
-
-	crop_imgName = image[130:230, 300:500]
-	text1 = pytesseract.image_to_string(crop_imgName,lang='spa')
-	text1=re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text1)
-
-	crop_imgApellidos = image[232:332, 300:440]
-	text2 = pytesseract.image_to_string(crop_imgApellidos,lang='spa')
-	text2 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text2)
-
-	crop_imgSexo = image[336:385, 300:460]
-	text3 = pytesseract.image_to_string(crop_imgSexo,lang='spa')
-	text3 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text3)
-	text3 = text3.replace('\n',' ')
-
-	crop_imgNacio = image[387:448, 300:480]
-	text4 = pytesseract.image_to_string(crop_imgNacio,lang='spa')
-	text4 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text4)
-
-	crop_imgFechaN = image[450:510, 300:490]
-	text5 = pytesseract.image_to_string(crop_imgFechaN,lang='spa')
-	text5 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text5)
-
-	indice_g = text3.find(Sex)
-	if indice_g != -1:
-	    genero = text3[indice_g + 5 : indice_g + 15]
-	elif indice_g == -1:
-	    Nacionalidad=text3[13:24]
-
-	indice_nacion = text4.find(NacioN)
-	if indice_nacion != -1:
-	    Nacionalidad = text4[indice_nacion + 13 : indice_g + 24]
-	elif indice_nacion == -1:
-	    genero=text4[5:15]
-
-	
-
-	Dia=text5[20:22]
-	Mes=text5[22:25]
-	Año=text5[25:29]
-
-	if Mes=='ENE':
-	    mes=1
-	    print(mes)
-	elif Mes=='FEB':
-	    mes=2 
-	elif Mes=='MAR':
-	    mes=3 
-	elif Mes=='ABR':
-	    mes=4    
-	elif Mes=='MAY':
-	    mes=5
-	elif Mes=='JUN':
-	    mes=6 
-	elif Mes=='JUL':
-	    mes=7
-	elif Mes=='AGO':
-	    mes=8     
-	elif Mes=='SEP':
-	    mes=9 
-	elif Mes=='OCT':
-	    mes=10 
-	elif Mes=='NOV':
-	    mes=11 
-	elif Mes=='DIC':
-	    mes=12 
-
-	fecha_de_nacimento=date(int(Año),int(mes),int(Dia))# (año,mes,día) 
-	Edad=calcular_edad(fecha_de_nacimento)
-
-	print(Dia)
-	print(Mes)
-	print(Año)
-	print(Edad)
-	#print(New_text)
-	#print(indice_g)
-	#print(indice_nacion)
-	#print(genero)
-	print(Nacionalidad)
-	#print(height, width)
-	print(text)
-	print(text1)
-	print(text2)
-	#print(text3)
-	#print(text4)
-	print(text5)
-
 
 def crear_conexion(base_datos):
 	try:
@@ -232,6 +125,136 @@ def exportToExcel():
 		for j,value in enumerate(row):
 			worksheet.write(i,j,value)
 	workbook.close()
+
+
+def calcular_edad(fecha_nacimiento): ##funcion para calcular la edad#
+	    fecha_actual = date.today()
+	    resultado = fecha_actual.year - fecha_nacimiento.year
+	    resultado -= ((fecha_actual.month, fecha_actual.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+	    return resultado
+
+def scanDPI(dosisIndividual,vacunaIndividual):
+	pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+
+	Sex='SEXO'
+	NacioN='NACIONALIDAD'
+
+	img = cv2.imread('prueba1.jpg')
+	im=img[0:760, 170:1451]#linea nueva para recortar el DPI# y,x
+	image = cv2.resize(im, (900,645))#726,471 # se redimenciona la imagen para tener un estandar"
+	imagenplt=cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
+	height, width, chanel = image.shape
+
+	crop_imgDPI = image[133:180, 0:290]#(y,x)# listo
+	text = pytesseract.image_to_string(crop_imgDPI)
+	text = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text)
+
+	crop_imgName = image[105:193, 275:470]#para tres funciono con 470 en el final de x#
+	text1 = pytesseract.image_to_string(crop_imgName,lang='spa')
+	text1=re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text1)
+
+	crop_imgApellidos = image[194:318, 275:470]#'LISTO'#
+	text2 = pytesseract.image_to_string(crop_imgApellidos,lang='spa')
+	text2 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text2)
+
+	crop_imgSexo = image[313:370, 280:470] #LISTO#
+	text3 = pytesseract.image_to_string(crop_imgSexo,lang='spa')
+	text3 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text3)
+	text3 = text3.replace('\n',' ')
+
+	crop_imgNacio = image[372:430, 280:470]#LISTO#
+	text4 = pytesseract.image_to_string(crop_imgNacio,lang='spa')
+	text4 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text4)
+
+	crop_imgFechaN = image[463:500, 280:500]#LISTO#
+	text5 = pytesseract.image_to_string(crop_imgFechaN,lang='spa')
+	text5 = re.sub('[^A-Za-z0-9" "ÁÉÍÓÚ]+', ' ', text5)
+
+
+	indice_g = text3.find(Sex)
+	if indice_g != -1:
+	    genero = text3[indice_g + 5 : indice_g + 15]
+	elif indice_g == -1:
+	    Nacionalidad=text3[13:24]
+
+	indice_nacion = text4.find(NacioN)
+	if indice_nacion != -1:
+	    Nacionalidad = text4[indice_nacion + 13 : indice_g + 24]
+	elif indice_nacion == -1:
+	    genero=text4[5:15]
+	Dia=text5[0:2]
+	Mes=text5[2:5]
+	Año=text5[5:9]
+
+	if Mes=='ENE':
+	    mes=1
+	    print(mes)
+	elif Mes=='FEB':
+	    mes=2 
+	elif Mes=='MAR':
+	    mes=3 
+	elif Mes=='ABR':
+	    mes=4    
+	elif Mes=='MAY':
+	    mes=5
+	elif Mes=='JUN':
+	    mes=6 
+	elif Mes=='JUL':
+	    mes=7
+	elif Mes=='AG0':
+	    mes=8     
+	elif Mes=='SEP':
+	    mes=9 
+	elif Mes=='OCT':
+	    mes=10 
+	elif Mes=='NOV':
+	    mes=11 
+	elif Mes=='DIC':
+	    mes=12 
+
+
+	fecha_de_nacimento=date(int(Año),int(mes),int(Dia))# (año,mes,día) 
+	Edad=calcular_edad(fecha_de_nacimento)                                          
+
+	edad=Edad                                                                       # 1era variable   'Edad'      # 
+	dpi = text                                                                      # 2da  variable   'DPI'       #
+
+	first_Name=text1.replace('NOMBRE ','')                                          # 3era variable   'Firstname' #  
+	                                                  
+	last_Name = text2.replace('APELLIDO ','')
+	last_Name = last_Name.replace('APELLIDOS ','')                                  # 4ta  variable   'Lastname?  #
+	 
+	nombre=first_Name + last_Name                                                   # 5ta variable Nombre completo#
+	fecha_nacimiento = text5                                                        # 6ta variable fechadenacimiento#
+
+	#print(height, width)
+	print(fecha_nacimiento)
+	print(Dia)
+	print(Mes)
+	print(Año)
+	print(edad)
+	print(genero)
+	print(Nacionalidad)
+	print(dpi)
+	print(first_Name)
+	print(last_Name)
+	print(nombre)
+
+	#######Ingreso a la base de datos (sigue función ScanDPI)#################
+	conexion=crear_conexion('pacientes.db')
+	dpi='2975333710101'
+
+	fecha_vacuna=datetime.datetime.now()
+
+	usuario=(dpi,nombre,int(edad),dosisIndividual,vacunaIndividual,fecha_vacuna)
+
+	crear_paciente(conexion,usuario)
+
+	exportToExcel()
+
+
+
 
 def escuchar():
 	with sr.Microphone() as source:
@@ -371,8 +394,8 @@ def escucharFecha():
 
 def takePhoto():
 	cap = cv2.VideoCapture(0)
-#address="https://192.168.1.2:8080/video"
-#cap.open(address)
+	address="https://192.168.1.5:8080/video"
+	cap.open(address)
 	start=time.time()
 	while(cap.isOpened()):
 		ret, frame = cap.read()
@@ -382,11 +405,12 @@ def takePhoto():
 		elapsedTime=end-start
 		if elapsedTime>=4:#cv2.waitKey(1) & 0xFF == ord('q'):
 			image=cv2.rotate(frame,cv2.ROTATE_180)
-			cv2.imwrite('CUI1.jpg',image)
+			cv2.imwrite('prueba1.jpg',image)
 			break
 
 	cap.release()
 	cv2.destroyAllWindows()
+
 
 def mainBot():
 	while True:
@@ -443,7 +467,7 @@ def mainBot():
 				engine.runAndWait()
 			if resultTag==13:#Toma la fotografía
 				takePhoto()
-				#scanDPI()
+				scanDPI(dosisIndividual,vacunaIndividual)
 				engine.say("Listo, acercate a la estación de vacunación")
 				engine.runAndWait()
 			print("Vacuna: "+vacunaIndividual)
