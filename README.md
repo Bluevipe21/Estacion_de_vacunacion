@@ -13,6 +13,7 @@ Se deben de instalar las siguientes librerías para que el proyecto funcione:
 * pyttsx3
 * datetime
 * opencv
+* pytesseract
 
 El funcionamiento consiste en que una persona sea capaz de solicitar el servicio de vacunación (de las que se encuentran activas en su región)
 y la computadora sea capaz de decirle si se puede colocar la vacuna (como en los casos de que sea segunda dósis). El programa
